@@ -34,7 +34,7 @@ public class LocAnalyser implements Analyser {
     /**
      * Method imported and adapted from JavaParser.
      * See {@link com.github.javaparser.printer.DefaultPrettyPrinterVisitor},
-     * method {@code getOrphanCommentsBeforeThisChildNode}.
+     * method {@code printOrphanCommentsBeforeThisChildNode}.
      * @param node Node for which to get comments that appeared before it.
      */
     private NodeList<Comment> getOrphanCommentsBeforeThisChildNode(final Node node) {
