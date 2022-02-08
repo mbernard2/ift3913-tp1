@@ -18,7 +18,7 @@ public class ComplexityAnalyser implements Analyser {
     private Node classNode = null;
 
     /**
-     * Sets the node to be analysed.
+     * Sets the node to be analysed. To be called by ClassIterator.
      * @param node Node to be analysed.
      */
     @Override

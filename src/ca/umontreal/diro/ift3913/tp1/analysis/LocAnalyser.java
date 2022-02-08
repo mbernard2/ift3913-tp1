@@ -11,7 +11,7 @@ import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
 
 public class LocAnalyser implements Analyser {
     /**
-     * Sets the node to be analysed.
+     * Sets the node to be analysed. To be called by ClassIterator.
      * @param node Node to be analysed.
      */
     @Override

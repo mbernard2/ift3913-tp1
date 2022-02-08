@@ -3,12 +3,42 @@ package ca.umontreal.diro.ift3913.tp1.analysis;
 import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
 
 public class ComplexityResults implements Results {
-    /** For a class, weighted sum of McCabe cyclomatic complexities.
-     *  For a package, sum of all WMC and WCP */
     private float weightedMethodsOrClasses;
 
-    /** For a class, DC ÷ WMC. For a package, DC ÷ WCP. */
     private float bc;
+
+    /**
+     * Produces a Results object with acts as a neutral element under addition.
+     * @return A ComplexityResults for which all fields have value 0.
+     */
+    public static ComplexityResults zero() {
+        return new ComplexityResults(0, 0);
+    }
+
+    /**
+     * Constructs a new Results containing complexity metrics.
+     * @param weightedMethodsOrClasses WMC or WCP
+     * @param bc BC metric, defined as (DC ÷ WMC) or (DC ÷ WCP)
+     */
+    ComplexityResults(float weightedMethodsOrClasses, float bc) {
+        this.weightedMethodsOrClasses = weightedMethodsOrClasses;
+        this.bc = bc;
+    }
+
+    /**
+     * For a class, weighted sum of McCabe cyclomatic complexities.
+     * For a package, sum of all WMC and WCP
+     */
+    public float getWeightedMethodsOrClasses() {
+        return weightedMethodsOrClasses;
+    }
+
+    /**
+     * For a class, DC ÷ WMC. For a package, DC ÷ WCP.
+     */
+    public float getBc() {
+        return bc;
+    }
 
     /**
      * Adds another Result's values to this.
@@ -18,8 +48,8 @@ public class ComplexityResults implements Results {
     @Override
     public void add(Results results) {
         if (results instanceof ComplexityResults) {
-            weightedMethodsOrClasses += ((ComplexityResults) results).weightedMethodsOrClasses;
-            bc += ((ComplexityResults) results).bc;
+            weightedMethodsOrClasses = getWeightedMethodsOrClasses() + ((ComplexityResults) results).getWeightedMethodsOrClasses();
+            bc = getBc() + ((ComplexityResults) results).getBc();
         }
     }
 

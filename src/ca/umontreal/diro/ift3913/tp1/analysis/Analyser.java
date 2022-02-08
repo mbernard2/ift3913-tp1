@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Node;
 
 public interface Analyser {
     /**
-     * Sets the node to be analysed.
+     * Sets the node to be analysed. To be called by ClassIterator.
      * @param node Node to be analysed.
      */
     void setClassNode(Node node);
