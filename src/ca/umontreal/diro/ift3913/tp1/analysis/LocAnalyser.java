@@ -1,13 +1,14 @@
 package ca.umontreal.diro.ift3913.tp1.analysis;
 
+import com.github.javaparser.ast.Node;
+
 public class LocAnalyser implements Analyser {
     /**
-     * Sets the code to be analysed. Should represent a complete source file
-     * since in Java, each file contains one and only one class.
-     * @param content Class code to be analysed.
+     * Sets the node to be analysed.
+     * @param node Node to be analysed.
      */
     @Override
-    public void setClassContent(String content) {
+    public void setClassNode(Node node) {
 
     }
 

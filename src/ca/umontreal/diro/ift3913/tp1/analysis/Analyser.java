@@ -1,12 +1,13 @@
 package ca.umontreal.diro.ift3913.tp1.analysis;
 
+import com.github.javaparser.ast.Node;
+
 public interface Analyser {
     /**
-     * Sets the code to be analysed. Should represent a complete source file
-     * since in Java, each file contains one and only one class.
-     * @param content Class code to be analysed.
+     * Sets the node to be analysed.
+     * @param node Node to be analysed.
      */
-    void setClassContent(String content);
+    void setClassNode(Node node);
 
     /**
      * Performs the analysis and returns the results as an instance
