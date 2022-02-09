@@ -13,7 +13,7 @@ public class Metrique {
 		return lignes;
 	}
 	
-	public static int mesureLOCclass(File file, String nomMethode) throws FileNotFoundExeption{
+	public static int mesureCLOCclass(File file, String nomMethode) throws FileNotFoundExeption{
 		int lignes =0;
 		Scanner scanner = new Scanner(file);
 		//...
