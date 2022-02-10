@@ -48,8 +48,8 @@ public class ComplexityResults implements Results {
     @Override
     public void add(Results results) {
         if (results instanceof ComplexityResults) {
-            weightedMethodsOrClasses = getWeightedMethodsOrClasses() + ((ComplexityResults) results).getWeightedMethodsOrClasses();
-            bc = getBc() + ((ComplexityResults) results).getBc();
+            weightedMethodsOrClasses += ((ComplexityResults) results).getWeightedMethodsOrClasses();
+            bc += ((ComplexityResults) results).getBc();
         }
     }
 

@@ -14,7 +14,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 
 public class ComplexityAnalyser implements Analyser {
-    private JavaParser parser = new JavaParser();
     private Node classNode = null;
 
     /**
@@ -34,7 +33,6 @@ public class ComplexityAnalyser implements Analyser {
      */
     @Override
     public ComplexityResults analyse() {
-
         return null;
     }
 }

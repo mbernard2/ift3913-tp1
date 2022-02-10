@@ -6,6 +6,7 @@ import com.github.javaparser.ast.comments.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
 
