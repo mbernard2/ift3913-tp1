@@ -30,6 +30,7 @@ public interface OutputVisitor {
 
     /**
      * Returns the constructed CSV file based on visited values.
+     * @return CSV file content.
      */
-    void getCsvString();
+    String getCsvString();
 }

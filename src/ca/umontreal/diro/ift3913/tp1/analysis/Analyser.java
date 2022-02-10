@@ -15,4 +15,10 @@ public interface Analyser {
      * @return Object containing the computed metrics.
      */
     Results analyse();
+
+    /**
+     * Provides a Results object whose fields are all initialized to 0.
+     * @return A default Results object.
+     */
+    Results getDefaultResults();
 }

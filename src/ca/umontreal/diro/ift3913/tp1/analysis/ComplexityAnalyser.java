@@ -35,4 +35,13 @@ public class ComplexityAnalyser implements Analyser {
     public ComplexityResults analyse() {
         return null;
     }
+
+    /**
+     * Provides a Results object whose fields are all initialized to 0.
+     * @return A default Results object.
+     */
+    @Override
+    public Results getDefaultResults() {
+        return ComplexityResults.zero();
+    }
 }

@@ -2,8 +2,20 @@ package ca.umontreal.diro.ift3913.tp1.output;
 
 import ca.umontreal.diro.ift3913.tp1.analysis.ComplexityResults;
 import ca.umontreal.diro.ift3913.tp1.analysis.LocResults;
+import com.github.javaparser.utils.Pair;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CsvOutputVisitor implements OutputVisitor {
+    private static class Line {
+        float loc;
+        float cloc;
+        float dc;
+        float complexity;
+        float bc;
+    }
+
     private final String pathColumnName;
     private final String itemColumnName;
     private final String locColumnName;
@@ -14,6 +26,8 @@ public class CsvOutputVisitor implements OutputVisitor {
 
     private String pathValue = "";
     private String itemNameValue = "";
+
+    private Map<Pair<String, String>, Line> data = new HashMap<>();
 
     public CsvOutputVisitor(
             String pathColumnName,
@@ -56,6 +70,7 @@ public class CsvOutputVisitor implements OutputVisitor {
      */
     @Override
     public void visit(LocResults results) {
+        Line line = getCurrentLine();
         // TODO
     }
 
@@ -65,14 +80,63 @@ public class CsvOutputVisitor implements OutputVisitor {
      */
     @Override
     public void visit(ComplexityResults results) {
-        // TODO
+        Line line = getCurrentLine();
+        line.complexity = results.getWeightedMethodsOrClasses();
+        line.bc = results.getBc();
     }
 
     /**
      * Returns the constructed CSV file based on visited values.
+     * @return CSV file content.
      */
     @Override
-    public void getCsvString() {
+    public String getCsvString() {
+        StringBuilder builder = new StringBuilder();
 
+        builder.append(pathColumnName)
+               .append(",")
+               .append(itemColumnName)
+               .append(",")
+               .append(locColumnName)
+               .append(",")
+               .append(clocColumnName)
+               .append(",")
+               .append(dcColumnName)
+               .append(",")
+               .append(complexityColumnName)
+               .append(",")
+               .append(bcColumnName)
+               .append("\n");
+
+        data.forEach((key, lineData) -> {
+            builder.append(key.a)
+                   .append(",")
+                   .append(key.b)
+                   .append(",")
+                   .append(lineData.loc)
+                   .append(",")
+                   .append(lineData.cloc)
+                   .append(",")
+                   .append(lineData.dc)
+                   .append(",")
+                   .append(lineData.complexity)
+                   .append(",")
+                   .append(lineData.bc)
+                   .append("\n");
+        });
+
+        return builder.toString();
+    }
+
+    private Line getCurrentLine() {
+        Pair<String, String> pair = new Pair<>(pathValue, itemNameValue);
+
+        if (!data.containsKey(pair)) {
+            Line newLine = new Line();
+            data.put(pair, newLine);
+            return newLine;
+        } else {
+            return data.get(pair);
+        }
     }
 }

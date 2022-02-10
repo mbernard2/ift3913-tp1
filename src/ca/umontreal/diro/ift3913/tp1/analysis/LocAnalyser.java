@@ -33,6 +33,15 @@ public class LocAnalyser implements Analyser {
     }
 
     /**
+     * Provides a Results object whose fields are all initialized to 0.
+     * @return A default Results object.
+     */
+    @Override
+    public Results getDefaultResults() {
+        return LocResults.zero();
+    }
+
+    /**
      * Method imported and adapted from JavaParser.
      * See {@link com.github.javaparser.printer.DefaultPrettyPrinterVisitor},
      * method {@code printOrphanCommentsBeforeThisChildNode}.
