@@ -9,13 +9,16 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
 
 public class LocAnalyser implements Analyser {
-    /**
+    private String path;
+
+	/**
      * Sets the node to be analysed. To be called by ClassIterator.
      * @param node Node to be analysed.
      */
@@ -44,42 +47,112 @@ public class LocAnalyser implements Analyser {
     public Results getDefaultResults() {
         return LocResults.zero();
     }
-
-    //INCOMPLET
-public int analyse(String code) throws FileNotFoundException {
-    	
-    	int class_LOC = 0;
-    	int paquet_LOC = 0;
+    
+    
+    
+    
+	/**
+     * 
+     * INCOMPLET
+     * 
+     */
    
-    	File file = new File(code);
-    	Scanner fichier = new Scanner(file);
-        String fileName = fichier.toString();
-        Pattern javaPattern = Pattern.compile("\\.java");
-        
-        if(javaPattern.matcher(fileName).find()){
-        	while (fichier.hasNextLine()) {
-        		String ligne = fichier.nextLine();
-        		if (ligne.trim().length()>0)
-        			class_LOC++;
-        	}
-    		return class_LOC;	
-        }else {
-        	if(file.isDirectory()) {
-        		File[] fichiers = new File(code).listFiles();
-        		for (File s : fichiers) {
-                    String nom = s.getName();
-                    if (s.isFile() && nom.endsWith(".java")) {
-                        class_LOC += analyse(s.getPath());
-                    }else if (s.isDirectory()) {
-                    	paquet_LOC += analyse(s.getPath());
-                    }
-        		}
-        	}
-        }
-		return paquet_LOC;
-    }
+	public void analyse(String code) throws FileNotFoundException {
+		File file = new File(code);
+		Scanner fichier = new Scanner(file);
+		String fileName = fichier.toString();
+		Pattern javaPattern = Pattern.compile("\\.java");
 
-    /**
+		if (javaPattern.matcher(fileName).find()) {
+			class_LOC(file);
+			class_CLOC(file);
+			class_DC(file);
+		} else if (file.isDirectory()) {
+			paquet_LOC(file);
+			paquet_CLOC(file);
+			paquet_DC(file);
+		} else {
+			System.out.print("Only Java File or Package");
+		}
+	}
+
+	public static int class_LOC(String code) throws FileNotFoundException {
+		int loc = 0;
+		File file = new File(code);
+		Scanner scanner = new Scanner(file);
+
+		while (scanner.hasNextLine()) {
+			String ligne = scanner.nextLine();
+			if (ligne.trim().length() > 0)
+				loc++;
+		}
+		return loc;
+	}
+
+	public static int paquet_LOC(String code) throws FileNotFoundException {
+		int loc = 0;
+		File[] fichiers = new File(code).listFiles();
+
+		for (File s : fichiers) {
+			String nom = s.getName();
+			if (s.isFile() && nom.endsWith(".java")) {
+				loc += class_LOC(s.getPath());
+			}
+		}
+		return loc;
+	}
+
+	public static int class_CLOC(String code) throws FileNotFoundException {
+		Stack<String> commentaires = new Stack<>();
+		int cloc = 0;
+		File file = new File(code);
+		Scanner scanner = new Scanner(file);
+
+		while (scanner.hasNextLine()) {
+			String ligne = scanner.nextLine();
+			if (ligne.trim().length() > 0) {
+				if (ligne.contains("*/") && !ligne.contains("\"*/\""))
+					commentaires.pop();
+				if (ligne.contains("/*") && !ligne.contains("\"/*\"") && !ligne.contains("/**")) {
+					commentaires.push("/*");
+					cloc++;
+				}
+				if (ligne.contains("//") && !ligne.contains("\"//\""))
+					cloc++;
+				if (ligne.contains("/**") && !ligne.contains("\"/**\"")) {
+					commentaires.push("/**");
+					cloc++;
+				}
+				if (!commentaires.empty())
+					cloc++;
+			}
+		}
+		return cloc;
+	}
+
+	public int paquet_CLOC(String code) throws FileNotFoundException {
+		int cloc = 0;
+		File[] fichiers = new File(code).listFiles();
+
+		for (File s : fichiers) {
+			String nom = s.getName();
+			if (s.isFile() && nom.endsWith(".java")) {
+				cloc += class_CLOC(s.getPath());
+			}
+		}
+		return cloc;
+	}
+
+	public static float class_DC(int CLOC, int LOC) {
+		return (float) CLOC / LOC;
+	}
+
+public static float paquet_DC(int CLOC, int LOC) {
+	return (float) CLOC / LOC;
+}
+    
+
+	/**
      * Method imported and adapted from JavaParser.
      * See {@link com.github.javaparser.printer.DefaultPrettyPrinterVisitor},
      * method {@code printOrphanCommentsBeforeThisChildNode}.
