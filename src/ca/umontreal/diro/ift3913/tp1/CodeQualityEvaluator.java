@@ -3,6 +3,9 @@ package ca.umontreal.diro.ift3913.tp1;
 import ca.umontreal.diro.ift3913.tp1.analysis.ComplexityAnalyser;
 import ca.umontreal.diro.ift3913.tp1.analysis.LocAnalyser;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 
 public class CodeQualityEvaluator {
@@ -18,7 +21,16 @@ public class CodeQualityEvaluator {
 
             Map<String, String> outputFiles = iterator.run();
 
-            // TODO output
+            outputFiles.forEach((fileName, content) -> {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+                    writer.write(content);
+                    writer.close();
+                } catch (IOException e) {
+                    System.err.println("Error while attempting to write to file \"" + fileName + "\" :");
+                    System.err.println(e.getMessage());
+                }
+            });
         }
     }
 }

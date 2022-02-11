@@ -70,7 +70,9 @@ public class CsvOutputVisitor implements OutputVisitor {
     @Override
     public void visit(LocResults results) {
         Line line = getCurrentLine();
-        // TODO
+        line.loc = results.getLoc();
+        line.cloc = results.getCloc();
+        line.dc = results.getDc();
     }
 
     /**

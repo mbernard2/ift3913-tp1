@@ -5,7 +5,7 @@ import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
 public class LocResults implements Results {
 	private int LOC;
 	private int CLOC;
-	private int DC;
+	private float DC;
 	
     /**
      * Produces a Results object with acts as a neutral element under addition.
@@ -13,6 +13,18 @@ public class LocResults implements Results {
      */
     public static Results zero() {
         return new LocResults(0, 0, 0);
+    }
+
+    /**
+     * Constructs a new Results containing LOC metrics.
+     * @param
+     * @param
+     * @param
+     */
+    LocResults(int LOC, int CLOC, float DC) {
+        this.LOC = LOC;
+        this.CLOC = CLOC;
+        this.DC = DC;
     }
 
     /**
@@ -29,16 +41,16 @@ public class LocResults implements Results {
         }
     }
 
-    /**
-     * Constructs a new Results containing LOC metrics.
-     * @param 
-     * @param 
-     * @param 
-     */
-    LocResults(int LOC, int CLOC, int DC) {
-        this.LOC = LOC;
-        this.CLOC = CLOC;
-        this.DC = DC;
+    public int getLoc() {
+        return LOC;
+    }
+
+    public int getCloc() {
+        return CLOC;
+    }
+
+    public float getDc() {
+        return DC;
     }
     
     /**

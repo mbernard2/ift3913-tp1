@@ -1,6 +1,7 @@
 package ca.umontreal.diro.ift3913.tp1;
 
 import ca.umontreal.diro.ift3913.tp1.analysis.Analyser;
+import ca.umontreal.diro.ift3913.tp1.analysis.LocAnalyser;
 import ca.umontreal.diro.ift3913.tp1.analysis.Results;
 import ca.umontreal.diro.ift3913.tp1.output.CsvOutputVisitor;
 import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
@@ -13,8 +14,7 @@ import com.github.javaparser.ast.body.EnumDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.utils.Pair;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -35,12 +35,12 @@ public class ClassIterator {
     private static final String CSV_CLASS_FILENAME = "classes.csv";
     private static final String CSV_PACKAGE_FILENAME = "paquets.csv";
 
-    private final Path path;
+    private final Path inputPath;
     private final Map<Analyser, Map<ClassData, Results>> analysersAndResults = new HashMap<>();
     private final JavaParser parser = new JavaParser();
 
-    public ClassIterator(String path) {
-        this.path = Paths.get(path);
+    public ClassIterator(String inputPath) {
+        this.inputPath = Paths.get(inputPath);
     }
 
     public void addAnalyser(Analyser analyser) {
@@ -48,7 +48,7 @@ public class ClassIterator {
     }
 
     public Map<String, String> run() {
-        File location = path.toFile();
+        File location = inputPath.toFile();
         Map<String, String> outputFiles = new HashMap<>();
         OutputVisitor classVisitor = new CsvOutputVisitor(
                 "chemin",
@@ -80,7 +80,7 @@ public class ClassIterator {
                         if (!packageResults.containsKey(packageName)) {
                             // Note: using class folder as package path. (All classes within
                             // the same package are supposed to be in the same folder)
-                            String folderPath = Paths.get(classData.path).getParent().toString();
+                            String folderPath = Paths.get(classData.path).getParent().relativize(inputPath).toString();
                             packageResults.put(packageName, new Pair<>(folderPath, analyser.getDefaultResults()));
                         }
                         packageResults.get(packageName).b.add(results);
@@ -133,8 +133,14 @@ public class ClassIterator {
                     analysersAndResults.forEach((analyser, analyserResults) -> {
                         analyser.setClassNode(decl);
                         Results res = analyser.analyse();
+
+                        if (res == null && analyser instanceof LocAnalyser) {
+                            // LocAnalyser needs the source code as a string.
+                            res = ((LocAnalyser) analyser).analyse(decl.toString());
+                        }
+
                         String name = decl.getFullyQualifiedName().orElse(decl.getName().asString());
-                        analyserResults.put(new ClassData(file.getPath(), name, packageName), res);
+                        analyserResults.put(new ClassData(file.getPath(), packageName, name), res);
                     });
                 }
             }

@@ -56,15 +56,15 @@ public class LocAnalyser implements Analyser {
 	 * INCOMPLET
 	 * 
 	 */
-	public Results analyse(String code) throws FileNotFoundException {
+	public Results analyse(String code) {
 		int LOC = class_LOC(code);
 		int CLOC = class_CLOC(code);
-		int DC = CLOC / LOC;
+		float DC = (float) CLOC / LOC;
 		
 		return new LocResults(LOC, CLOC, DC);
 	}
 
-	public static int class_LOC(String code) throws FileNotFoundException {
+	public static int class_LOC(String code) {
 		int loc = 0;
 		Scanner scanner = new Scanner(code);
 
@@ -76,7 +76,7 @@ public class LocAnalyser implements Analyser {
 		return loc;
 	}
 
-	public static int class_CLOC(String code) throws FileNotFoundException {
+	public static int class_CLOC(String code) {
 		int cloc = 0;
 		boolean comment = false;
 		Scanner scanner = new Scanner(code);
