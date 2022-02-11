@@ -4,9 +4,13 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.comments.Comment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
 
@@ -39,6 +43,40 @@ public class LocAnalyser implements Analyser {
     @Override
     public Results getDefaultResults() {
         return LocResults.zero();
+    }
+
+    //INCOMPLET
+public int analyse(String code) throws FileNotFoundException {
+    	
+    	int class_LOC = 0;
+    	int paquet_LOC = 0;
+   
+    	File file = new File(code);
+    	Scanner fichier = new Scanner(file);
+        String fileName = fichier.toString();
+        Pattern javaPattern = Pattern.compile("\\.java");
+        
+        if(javaPattern.matcher(fileName).find()){
+        	while (fichier.hasNextLine()) {
+        		String ligne = fichier.nextLine();
+        		if (ligne.trim().length()>0)
+        			class_LOC++;
+        	}
+    		return class_LOC;	
+        }else {
+        	if(file.isDirectory()) {
+        		File[] fichiers = new File(code).listFiles();
+        		for (File s : fichiers) {
+                    String nom = s.getName();
+                    if (s.isFile() && nom.endsWith(".java")) {
+                        class_LOC += analyse(s.getPath());
+                    }else if (s.isDirectory()) {
+                    	paquet_LOC += analyse(s.getPath());
+                    }
+        		}
+        	}
+        }
+		return paquet_LOC;
     }
 
     /**
