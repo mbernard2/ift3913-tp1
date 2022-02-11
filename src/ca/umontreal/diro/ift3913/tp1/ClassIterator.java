@@ -111,7 +111,7 @@ public class ClassIterator {
     private void analyseLocation(File location) throws IOException {
         if (location.isDirectory()) {
             for (File file : location.listFiles()) {
-                analyseLocation(location);
+                analyseLocation(file);
             }
         } else if (location.isFile()) {
             analyseFile(location);
