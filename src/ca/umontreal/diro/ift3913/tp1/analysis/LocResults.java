@@ -3,7 +3,10 @@ package ca.umontreal.diro.ift3913.tp1.analysis;
 import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
 
 public class LocResults implements Results {
-
+	private int LOC;
+	private int CLOC;
+	private int DC;
+	
     /**
      * Produces a Results object with acts as a neutral element under addition.
      * @return A Result for which all fields have value 0.
@@ -21,6 +24,18 @@ public class LocResults implements Results {
 
     }
 
+    /**
+     * Constructs a new Results containing LOC metrics.
+     * @param 
+     * @param 
+     * @param 
+     */
+    LocResults(int LOC, int CLOC, int DC) {
+        this.LOC = LOC;
+        this.CLOC = CLOC;
+        this.DC = DC;
+    }
+    
     /**
      * Implements the Visitor's pattern for converting the computed
      * values to the proper output format.
