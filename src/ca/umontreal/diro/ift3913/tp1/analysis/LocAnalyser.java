@@ -2,6 +2,7 @@ package ca.umontreal.diro.ift3913.tp1.analysis;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 
 import java.io.File;
@@ -23,8 +24,8 @@ public class LocAnalyser implements Analyser {
 	 * @param node Node to be analysed.
 	 */
 	@Override
-	public void setClassNode(Node node) {
-
+	public void setClassNode(TypeDeclaration<?> node) {
+		// Unused
 	}
 
 	/**
@@ -36,7 +37,7 @@ public class LocAnalyser implements Analyser {
 	 */
 	@Override
 	public LocResults analyse() {
-		// TODO
+		// Unused
 		return null;
 	}
 
@@ -55,12 +56,12 @@ public class LocAnalyser implements Analyser {
 	 * INCOMPLET
 	 * 
 	 */
-	public analyse(String code) throws FileNotFoundException {
+	public Results analyse(String code) throws FileNotFoundException {
 		int LOC = class_LOC(code);
 		int CLOC = class_CLOC(code);
 		int DC = CLOC / LOC;
 		
-		return new LocResults(int LOC, int CLOC, int DC);
+		return new LocResults(LOC, CLOC, DC);
 	}
 
 	public static int class_LOC(String code) throws FileNotFoundException {

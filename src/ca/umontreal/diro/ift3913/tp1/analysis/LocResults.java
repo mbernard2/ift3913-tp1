@@ -12,7 +12,7 @@ public class LocResults implements Results {
      * @return A Result for which all fields have value 0.
      */
     public static Results zero() {
-        return null; // TODO
+        return new LocResults(0, 0, 0);
     }
 
     /**
@@ -21,7 +21,12 @@ public class LocResults implements Results {
      */
     @Override
     public void add(Results results) {
-
+        if (results instanceof LocResults) {
+            LocResults locResults = (LocResults) results;
+            LOC += locResults.LOC;
+            CLOC += locResults.CLOC;
+            DC += locResults.DC;
+        }
     }
 
     /**
