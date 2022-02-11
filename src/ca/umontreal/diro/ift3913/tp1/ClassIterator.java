@@ -23,9 +23,9 @@ public class ClassIterator {
     private static class ClassData {
         private final String packageName;
         private final String className;
-        private final String path;
+        private final Path path;
 
-        private ClassData(String path, String packageName, String className) {
+        private ClassData(Path path, String packageName, String className) {
             this.path = path;
             this.packageName = packageName;
             this.className = className;
@@ -49,6 +49,7 @@ public class ClassIterator {
 
     public Map<String, String> run() {
         File location = inputPath.toFile();
+        Path relativeTo = inputPath.getParent();
         Map<String, String> outputFiles = new HashMap<>();
         OutputVisitor classVisitor = new CsvOutputVisitor(
                 "chemin",
@@ -80,13 +81,13 @@ public class ClassIterator {
                         if (!packageResults.containsKey(packageName)) {
                             // Note: using class folder as package path. (All classes within
                             // the same package are supposed to be in the same folder)
-                            String folderPath = Paths.get(classData.path).getParent().relativize(inputPath).toString();
+                            String folderPath = relativeTo.relativize(classData.path.getParent()).toString();
                             packageResults.put(packageName, new Pair<>(folderPath, analyser.getDefaultResults()));
                         }
                         packageResults.get(packageName).b.add(results);
                     }
 
-                    classVisitor.setCurrentPath(classData.path);
+                    classVisitor.setCurrentPath(relativeTo.relativize(classData.path).toString());
                     classVisitor.setCurrentItemName(classData.className);
                     results.accept(classVisitor);
                 });
@@ -140,7 +141,7 @@ public class ClassIterator {
                         }
 
                         String name = decl.getFullyQualifiedName().orElse(decl.getName().asString());
-                        analyserResults.put(new ClassData(file.getPath(), packageName, name), res);
+                        analyserResults.put(new ClassData(file.toPath(), packageName, name), res);
                     });
                 }
             }
