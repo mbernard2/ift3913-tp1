@@ -13,7 +13,6 @@ public class CsvOutputVisitor implements OutputVisitor {
         float cloc;
         float dc;
         float complexity;
-        float bc;
     }
 
     private final String pathColumnName;
@@ -82,7 +81,6 @@ public class CsvOutputVisitor implements OutputVisitor {
     public void visit(ComplexityResults results) {
         Line line = getCurrentLine();
         line.complexity = results.getWeightedMethodsOrClasses();
-        line.bc = results.getBc();
     }
 
     /**
@@ -109,6 +107,7 @@ public class CsvOutputVisitor implements OutputVisitor {
                .append("\n");
 
         data.forEach((key, lineData) -> {
+            float bc = lineData.dc / lineData.complexity;
             builder.append(key.a)
                    .append(",")
                    .append(key.b)
@@ -121,7 +120,7 @@ public class CsvOutputVisitor implements OutputVisitor {
                    .append(",")
                    .append(lineData.complexity)
                    .append(",")
-                   .append(lineData.bc)
+                   .append(bc)
                    .append("\n");
         });
 

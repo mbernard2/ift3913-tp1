@@ -2,6 +2,7 @@ package ca.umontreal.diro.ift3913.tp1.analysis;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
 
 import java.io.File;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.github.javaparser.utils.PositionUtils.sortByBeginPosition;
@@ -23,7 +23,7 @@ public class LocAnalyser implements Analyser {
      * @param node Node to be analysed.
      */
     @Override
-    public void setClassNode(Node node) {
+    public void setClassNode(TypeDeclaration<?> node) {
 
     }
 

@@ -1,13 +1,13 @@
 package ca.umontreal.diro.ift3913.tp1.analysis;
 
-import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 public interface Analyser {
     /**
      * Sets the node to be analysed. To be called by ClassIterator.
      * @param node Node to be analysed.
      */
-    void setClassNode(Node node);
+    void setClassNode(TypeDeclaration<?> node);
 
     /**
      * Performs the analysis and returns the results as an instance
