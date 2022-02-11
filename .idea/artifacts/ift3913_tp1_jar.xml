@@ -6,6 +6,9 @@
         <element id="file-copy" path="$PROJECT_DIR$/resources/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="ift3913-tp1" />
+      <element id="directory" name="com">
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/javaparser-core-3.24.0.jar" path-in-jar="/com/" />
+      </element>
     </root>
   </artifact>
 </component>
