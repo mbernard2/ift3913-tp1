@@ -5,9 +5,9 @@ import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
 public interface Results {
     /**
      * Adds another Result's values to this.
-     * @param results Other objet whose values to use.
+     * @param results Other objet whose values to combine.
      */
-    void add(Results results);
+    void combine(Results results);
 
     /**
      * Implements the Visitor's pattern for converting the computed
