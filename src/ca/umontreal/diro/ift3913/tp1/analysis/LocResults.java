@@ -17,9 +17,9 @@ public class LocResults implements Results {
 
     /**
      * Constructs a new Results containing LOC metrics.
-     * @param
-     * @param
-     * @param
+     * @param Number of lines of code.
+     * @param Number of lines of code that contain comments.
+     * @param Density of comments.
      */
     LocResults(int loc, int cloc, float dc) {
         this.loc = loc;

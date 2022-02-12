@@ -42,9 +42,12 @@ public class LocAnalyser implements Analyser {
 	}
 	
 	/**
+	 * Provides a Results object whose fields are the number of lines of code 
+	 * in a class, with the number of lines of code with comments
+	 * and density of comments for a class.
 	 * 
-	 * INCOMPLET
-	 * 
+	 * @param The code of the file that is to be analyze.
+	 * @return A new Results object containing the computed metrics.
 	 */
 	private Results analyse(String code) {
 		int loc = computeClassLoc(code);
@@ -54,6 +57,12 @@ public class LocAnalyser implements Analyser {
 		return new LocResults(loc, cloc, dc);
 	}
 
+	/**
+	 * Provides a value that is the number of lines of code.
+	 * 
+	 * @param The code of the file that is to be analyze.
+	 * @return An integer which is the number of lines of code.
+	 */
 	private static int computeClassLoc(String code) {
 		int loc = 0;
 		Scanner scanner = new Scanner(code);
@@ -65,8 +74,14 @@ public class LocAnalyser implements Analyser {
 		}
 		return loc;
 	}
-
 	private static int computeClassCloc(String code) {
+	
+	/**
+	 * Provides a value that is the number of lines of code that contain comments.
+	 * 
+	 * @param The code of the file that is to be analyze.
+	 */
+	 * @return An integer which is the number of lines of code that contain comments.
 		int cloc = 0;
 		boolean comment = false;
 		Scanner scanner = new Scanner(code);
