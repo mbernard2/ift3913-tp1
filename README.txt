@@ -1,3 +1,10 @@
+AUTEURS
+-------
+
+Maxim Bernard
+Sami-Yassine Sabri
+
+
 DÉPÔT GITHUB
 ------------
 

@@ -12,7 +12,22 @@ Les 3 paquets les moins bien commentées:
 2- org.jfree.chart		0.0010817483
 3- org.jfree.data.statistics	0.0011692538
 
-Améliorations:
-Simplifier les méthodes ou avoir moins de sous-méthodes.
-Documenter les sous-méthodes pour ne pas avoir de longues lignes de codes sans commentaires.
-Utiliser une autre métrique aulieu de la BC.
+
+Remarques :
+- Les classes ayant le plus bas score BC sont des classes ayant un grand
+  nombre de méthodes. Cela peut indiquer un manque de cohésion (une classe
+  qui a un trop grand nombre de responsabilités). Une suggestion serait
+  de diviser les grandes classes en plus petites classes.
+- Néanmoins, une autre métrique que BC devrait être utilisée, car ce n'est
+  pas un bon indicateur de la sous-documentation par rapport à la complexité.
+  En effet, la classe qui est supposément la moins bien documentée est,
+  lorsqu'on la regarde de plus près, assez bien documentée dans les faits.
+  Il serait peut-être plus utile de regarder la métrique DC. Les trois classes
+  ayant le plus bas score pour cette métrique sont :
+    1- NumberTickUnitSource (13.8%)
+    2- DefaultNumberAxisEditor (20%)
+    3- Regression (25%)
+  En particulier, la première a plusieurs méthodes qui ne sont pas du tout
+  documentées, dont notamment `getCeilingTickUnit`, qui, à première vue, est
+  plus complexe que les autres. Elle devrait donc particulièrement être
+  documentée (les autres aussi, bien sûr).
