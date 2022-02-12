@@ -4,7 +4,7 @@ Les 3 classes les moins bien commentées:
 
 1- CategoryPlot.java 		0.0010035022 
 2- DatasetUtils.java 		0.0017880225
-3- AbstractRenderer.java		0.0019257136
+3- AbstractRenderer.java	0.0019257136
 
 Les 3 paquets les moins bien commentées:
 
