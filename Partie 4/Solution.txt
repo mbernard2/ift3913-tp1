@@ -1,0 +1,18 @@
+Solution - Partie 4
+
+Les 3 classes les moins bien commentées:
+
+1- CategoryPlot.java 	0.0010035022 
+2- DatasetUtils.java 	0.0017880225
+3- AbstractRenderer.java	0.0019257136
+
+Les 3 paquets les moins bien commentées:
+
+1- org.jfree.chart.renderer	0.0010812044
+2- org.jfree.chart		0.0010817483
+3- org.jfree.data.statistics	0.0011692538
+
+Améliorations:
+Simplifier les méthodes ou avoir moins de sous-méthodes.
+Documenter les sous-méthodes pour ne pas avoir de longues lignes de codes sans commentaires.
+Utiliser une autre métrique aulieu de la BC.
