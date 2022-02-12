@@ -52,9 +52,12 @@ public class LocAnalyser implements Analyser {
 	}
 	
 	/**
+	 * Provides a Results object whose fields are the number of lines of code 
+	 * in a class, with the number of lines of code with comments
+	 * and density of comments for a class.
 	 * 
-	 * INCOMPLET
-	 * 
+	 * @param The code of the file that is to be analyze.
+	 * @return A new Results object containing the computed metrics.
 	 */
 	public Results analyse(String code) {
 		int LOC = class_LOC(code);
@@ -64,6 +67,12 @@ public class LocAnalyser implements Analyser {
 		return new LocResults(LOC, CLOC, DC);
 	}
 
+	/**
+	 * Provides a value that is the number of lines of code.
+	 * 
+	 * @param The code of the file that is to be analyze.
+	 * @return An integer which is the number of lines of code.
+	 */
 	public static int class_LOC(String code) {
 		int loc = 0;
 		Scanner scanner = new Scanner(code);
@@ -75,7 +84,13 @@ public class LocAnalyser implements Analyser {
 		}
 		return loc;
 	}
-
+	
+	/**
+	 * Provides a value that is the number of lines of code that contain comments.
+	 * 
+	 * @param The code of the file that is to be analyze.
+	 * @return An integer which is the number of lines of code that contain comments.
+	 */
 	public static int class_CLOC(String code) {
 		int cloc = 0;
 		boolean comment = false;
@@ -92,6 +107,13 @@ public class LocAnalyser implements Analyser {
 		return cloc;
 	}
 
+	/**
+	 * Provides a value that represents the density of comments.
+	 * 
+	 * @param Number of lines of code that contain comments.
+	 * @param Number of lines of code.
+	 * @return A float which is the ndensity of comments.
+	 */
 	public static float class_DC(int CLOC, int LOC) {
 		return (float) CLOC / LOC;
 	}
