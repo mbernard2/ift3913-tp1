@@ -11,7 +11,7 @@ import java.util.Map;
 public class CodeQualityEvaluator {
     public static void main(String[] args) {
         if (args.length == 0) {
-            // TODO print help
+            System.out.println("Usage: java -jar CodeQualityEvaluator.jar PATH");
         } else if (args.length > 1) {
             System.err.println("Fatal error: wrong number of arguments. Expects exactly one argument.");
         } else {

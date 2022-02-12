@@ -3,9 +3,9 @@ package ca.umontreal.diro.ift3913.tp1.analysis;
 import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
 
 public class LocResults implements Results {
-	private int LOC;
-	private int CLOC;
-	private float DC;
+	private int loc;
+	private int cloc;
+	private float dc;
 	
     /**
      * Produces a Results object with acts as a neutral element under addition.
@@ -21,36 +21,37 @@ public class LocResults implements Results {
      * @param
      * @param
      */
-    LocResults(int LOC, int CLOC, float DC) {
-        this.LOC = LOC;
-        this.CLOC = CLOC;
-        this.DC = DC;
+    LocResults(int loc, int cloc, float dc) {
+        this.loc = loc;
+        this.cloc = cloc;
+        this.dc = dc;
     }
 
     /**
-     * Adds another Result's values to this.
-     * @param results Other objet whose values to use.
+     * Adds another Result's values to this. Updates the DC value
+     * accordingly (LOC ÷ CLOC).
+     * @param results Other objet whose values to combine.
      */
     @Override
-    public void add(Results results) {
+    public void combine(Results results) {
         if (results instanceof LocResults) {
             LocResults locResults = (LocResults) results;
-            LOC += locResults.LOC;
-            CLOC += locResults.CLOC;
-            DC += locResults.DC;
+            loc += locResults.loc;
+            cloc += locResults.cloc;
+            dc = (float) cloc / loc;
         }
     }
 
     public int getLoc() {
-        return LOC;
+        return loc;
     }
 
     public int getCloc() {
-        return CLOC;
+        return cloc;
     }
 
     public float getDc() {
-        return DC;
+        return dc;
     }
     
     /**

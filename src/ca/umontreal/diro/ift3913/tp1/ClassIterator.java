@@ -1,7 +1,6 @@
 package ca.umontreal.diro.ift3913.tp1;
 
 import ca.umontreal.diro.ift3913.tp1.analysis.Analyser;
-import ca.umontreal.diro.ift3913.tp1.analysis.LocAnalyser;
 import ca.umontreal.diro.ift3913.tp1.analysis.Results;
 import ca.umontreal.diro.ift3913.tp1.output.CsvOutputVisitor;
 import ca.umontreal.diro.ift3913.tp1.output.OutputVisitor;
@@ -49,7 +48,8 @@ public class ClassIterator {
 
     public Map<String, String> run() {
         File location = inputPath.toFile();
-        Path relativeTo = inputPath.getParent();
+        Path parentDir = inputPath.getParent();
+        Path relativeTo = parentDir == null ? Paths.get(".") : parentDir;
         Map<String, String> outputFiles = new HashMap<>();
         OutputVisitor classVisitor = new CsvOutputVisitor(
                 "chemin",
@@ -81,10 +81,12 @@ public class ClassIterator {
                         if (!packageResults.containsKey(packageName)) {
                             // Note: using class folder as package path. (All classes within
                             // the same package are supposed to be in the same folder)
-                            String folderPath = relativeTo.relativize(classData.path.getParent()).toString();
+                            Path classParentDir = classData.path.getParent();
+                            Path classParentPath = classParentDir == null ? Paths.get(".") : classParentDir;
+                            String folderPath = relativeTo.relativize(classParentPath).toString();
                             packageResults.put(packageName, new Pair<>(folderPath, analyser.getDefaultResults()));
                         }
-                        packageResults.get(packageName).b.add(results);
+                        packageResults.get(packageName).b.combine(results);
                     }
 
                     classVisitor.setCurrentPath(relativeTo.relativize(classData.path).toString());
@@ -115,7 +117,10 @@ public class ClassIterator {
                 analyseLocation(file);
             }
         } else if (location.isFile()) {
-            analyseFile(location);
+            if (location.getName().endsWith(".java"))
+                analyseFile(location);
+            else
+                System.err.println("Skipped file: \"" + location.getPath() + "\"");
         } else {
             System.err.println("Error: no such file or directory: \"" + location.getPath() + "\"");
         }
@@ -134,12 +139,6 @@ public class ClassIterator {
                     analysersAndResults.forEach((analyser, analyserResults) -> {
                         analyser.setClassNode(decl);
                         Results res = analyser.analyse();
-
-                        if (res == null && analyser instanceof LocAnalyser) {
-                            // LocAnalyser needs the source code as a string.
-                            res = ((LocAnalyser) analyser).analyse(decl.toString());
-                        }
-
                         String name = decl.getFullyQualifiedName().orElse(decl.getName().asString());
                         analyserResults.put(new ClassData(file.toPath(), packageName, name), res);
                     });

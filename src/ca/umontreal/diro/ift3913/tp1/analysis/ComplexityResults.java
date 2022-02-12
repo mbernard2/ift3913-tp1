@@ -31,11 +31,10 @@ public class ComplexityResults implements Results {
 
     /**
      * Adds another Result's values to this.
-     *
-     * @param results Other objet whose values to use.
+     * @param results Other objet whose values to combine.
      */
     @Override
-    public void add(Results results) {
+    public void combine(Results results) {
         if (results instanceof ComplexityResults) {
             weightedMethodsOrClasses += ((ComplexityResults) results).getWeightedMethodsOrClasses();
         }
